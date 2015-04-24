@@ -1,0 +1,526 @@
+
+## yangcong.py
+
+##### RequestCallBack
+
+&emsp;&emsp;&emsp;根据接口返回数据
+
+##### api
+
+&emsp;&emsp;&emsp;洋葱sdk
+
+| Name        | Struct                | Description                     |
+| :--------    | :----------------      | :-------------                   |
+| [\_\_init\_\_](#__init__) | (appid,appkey,authid) | 传入洋葱提供的appid appkey authid |
+| [getBindingCode](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
+| [getLoginCode](#user-content-getLoginCode) | () | 获取登陆二维码 |
+| [getResult](#user-content-getResult) | (uuid) | 获取结果 |
+| [verifyOneClick](#user-content-verifyOneClick) | (userid,action,ip,username) | 验证一键认证 |
+| [verifyOTP](#user-content-verifyOTP) | (userid,dnum) | 验证动态码 |
+
+<h6 id="getBindingCode">getBindingCode</h6>
+&emsp;&emsp;&emsp;获得绑定二维码地址 需要与getResult配合调用
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td>app不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td>appid 或者 appkey 错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300018</td>
+                                                            <td>获取二维码图片失败</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>message</td>
+                                            <td>状态信息</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*url</td>
+                                            <td>请求成功时返回二维码地址</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*uuid</td>
+                                            <td>请求成功时返回uuid</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h6 id="getLoginCode">getLoginCode</h6>
+&emsp;&emsp;&emsp;获得登陆二维码地址 需要与getResult配合调用
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td>app不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td>appid 或者 appkey 错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300018</td>
+                                                            <td>获取二维码图片失败</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>message</td>
+                                            <td>状态信息</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*url</td>
+                                            <td>请求成功时返回二维码地址</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*uuid</td>
+                                            <td>请求成功时返回uuid</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6 id="getResult">getResult</h6>
+&emsp;&emsp;&emsp;查询UUID事件结果
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td>app不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td>appid 或者 appkey 错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300040</td>
+                                                            <td>推送消息失败</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300055</td>
+                                                            <td>用户拒绝授权验证</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300056</td>
+                                                            <td>用户未操作或UUID不存在，可重试</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300058</td>
+                                                            <td>用户未操作，已超时，不可重试</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>message</td>
+                                            <td>状态信息</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*userid</td>
+                                            <td>返回用户ID</td>
+                                        </tr>
+                                        <tr>
+                                            <td>*signature</td>
+                                            <td>返回签名：[MD5(userid=$useridappkey)]
+例：userid=aaaa appkey=bbbb MD5(userid=aaaabbbb)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6 id="verifyOneClick">verifyOneClick</h6>
+&emsp;&emsp;&emsp;一键认证需要与getResult配合调用
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td>用户不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td>app不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>*uuid</td>
+                                            <td>返回事件id</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6 id="verifyOTP">verifyOTP</h6>
+&emsp;&emsp;&emsp;动态码认证
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td>系统错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td>用户不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td>app不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>17</td>
+                                                            <td>appkey匹配失败</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td>appid或者appkey错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
