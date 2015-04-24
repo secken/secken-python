@@ -860,7 +860,62 @@ body .markdown-body
   float: left;
   margin: 0.3em 0 0.25em -1.6em;
   vertical-align: middle;
-}</style><title>README</title></head><body><article class="markdown-body"><h6 id="user-content-getBindingCode">
+}</style><title>README</title></head><body><article class="markdown-body"><h2>
+<a id="user-content-yangcongpy" class="anchor" href="#yangcongpy" aria-hidden="true"><span class="octicon octicon-link"></span></a>yangcong.py</h2>
+
+<h5>
+<a id="user-content-requestcallback" class="anchor" href="#requestcallback" aria-hidden="true"><span class="octicon octicon-link"></span></a>RequestCallBack</h5>
+
+<p>   根据接口返回数据</p>
+
+<h5>
+<a id="user-content-api" class="anchor" href="#api" aria-hidden="true"><span class="octicon octicon-link"></span></a>api</h5>
+
+<p>   洋葱sdk</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Struct</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><a href="#__init__">__init__</a></td>
+<td align="left">(appid,appkey,authid)</td>
+<td align="left">传入洋葱提供的appid appkey authid</td>
+</tr>
+<tr>
+<td align="left"><a href="#user-content-getBindingCode">getBindingCode</a></td>
+<td align="left">()</td>
+<td align="left">获取绑定的二维码地址</td>
+</tr>
+<tr>
+<td align="left"><a href="#user-content-getLoginCode">getLoginCode</a></td>
+<td align="left">()</td>
+<td align="left">获取登陆二维码</td>
+</tr>
+<tr>
+<td align="left"><a href="#user-content-getResult">getResult</a></td>
+<td align="left">(uuid)</td>
+<td align="left">获取结果</td>
+</tr>
+<tr>
+<td align="left"><a href="#user-content-verifyOneClick">verifyOneClick</a></td>
+<td align="left">(userid,action,ip,username)</td>
+<td align="left">验证一键认证</td>
+</tr>
+<tr>
+<td align="left"><a href="#user-content-verifyOTP">verifyOTP</a></td>
+<td align="left">(userid,dnum)</td>
+<td align="left">验证动态码</td>
+</tr>
+</tbody>
+</table>
+
+<h6 id="user-content-getBindingCode">
 <a id="user-content-getbindingcode" class="anchor" href="#getbindingcode" aria-hidden="true"><span class="octicon octicon-link"></span></a>getBindingCode</h6>
 
 <p>   获得绑定二维码地址 需要与getResult配合调用</p>
