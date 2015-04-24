@@ -219,7 +219,7 @@ class api(object):
         return RequestCallBack(result)
 
     def authPage(self,callback):
-        t = time.time()
+        t = long(round(time.time()))
         signature = "authid=%callback=%time=%s%s" % (
             self.authid, callback, t, self.appkey)
 
