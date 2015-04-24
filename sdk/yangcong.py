@@ -217,3 +217,33 @@ class api(object):
         }
 
         return RequestCallBack(result)
+
+    def authPage(self,callback):
+        t = time.time()
+        signature = "authid=%callback=%time=%s%s" % (
+            self.authid, callback, t, self.appkey)
+
+        data = {
+            "time": t,
+            "authid": self.authid,
+            "callback": callback,
+            "signature": md5.new(signature).hexdigest()
+        }
+
+        # 网络请求
+        json_dict = None
+        try:
+            json_dict = __Post__(self.__getUrl("AuthPage"), data)
+        except Exception, e:
+            json_dict = {
+                "code": -1,
+                "message": "network has exception"
+            }
+
+        # 返回dict结构
+        result = {
+            "success": json_dict["code"] == 0 and True or False,
+            "result": RequestCallBack(json_dict)
+        }
+
+        return RequestCallBack(result)

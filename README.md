@@ -17,6 +17,7 @@
 | [getResult](#user-content-getResult) | (uuid) | 获取结果 |
 | [verifyOneClick](#user-content-verifyOneClick) | (userid,action,ip,username) | 验证一键认证 |
 | [verifyOTP](#user-content-verifyOTP) | (userid,dnum) | 验证动态码 |
+| [authPage](#user-content-authPage) | (callback) | 洋葱授权页 |
 
 <h6 id="getBindingCode">getBindingCode</h6>
 &emsp;&emsp;&emsp;获得绑定二维码地址 需要与getResult配合调用
@@ -493,6 +494,96 @@
                                                             <td>17</td>
                                                             <td>appkey匹配失败</td>
                                                         </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td>appid或者appkey错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300008</td>
+                                                            <td>参数格式错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300022</td>
+                                                            <td>错误请求过于频繁</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>300039</td>
+                                                            <td>调用接口过于频繁</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6 id="authPage">authPage</h6>
+&emsp;&emsp;&emsp;洋葱授权页
+<table>
+    <thead>
+        <tr>
+            <th colspan="2" align="left">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="left">RequestCallBack</th>
+            <td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Name</th>
+                            <th align="left">Description</th>
+                        </tr>
+                        <tr>
+                            <td>success</td>
+                            <td>如果result.code为0则为True否则为False</td>
+                        </tr>
+                        <tr>
+                            <td>result</td>
+                            <td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Name</th>
+                                            <th align="left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>
+                                                返回状态码:
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>-1</td>
+                                                            <td>网络异常</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>请求成功</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td>系统错误</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td>用户不存在</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td>签名错误</td>
+                                                        </tr
                                                         <tr>
                                                             <td>19</td>
                                                             <td>appid或者appkey错误</td>
