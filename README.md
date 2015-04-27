@@ -14,7 +14,7 @@
 | [\_\_init\_\_](#__init__) | (appid,appkey,authid) | 传入洋葱提供的appid appkey authid |
 | [getBindingCode](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
 | [getLoginCode](#user-content-getLoginCode) | () | 获取登陆二维码 |
-| [getResult](#user-content-getResult) | (uuid) | 获取结果 |
+| [getResult](#user-content-getResult) | () | 获取结果 |
 | [verifyOneClick](#user-content-verifyOneClick) | (userid,action,ip,username) | 验证一键认证 |
 | [verifyOTP](#user-content-verifyOTP) | (userid,dnum) | 验证动态码 |
 | [authPage](#user-content-authPage) | (callback) | 洋葱授权页 |
@@ -572,37 +572,19 @@
                                                             <td>0</td>
                                                             <td>请求成功</td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>6</td>
-                                                            <td>系统错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>7</td>
-                                                            <td>用户不存在</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>15</td>
-                                                            <td>签名错误</td>
-                                                        </tr
-                                                        <tr>
-                                                            <td>19</td>
-                                                            <td>appid或者appkey错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300008</td>
-                                                            <td>参数格式错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>*message</td>
+                                            <td>
+                                                当code不为0时返回错误信息
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>*url</td>
+                                            <td>当请求成功时返回授权页地址</td>
                                         </tr>
                                     </tbody>
                                 </table>

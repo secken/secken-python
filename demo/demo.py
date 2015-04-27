@@ -24,11 +24,13 @@ urls = (
     "/result", "Result",
     "/loginCode", "LoginCode",
     "/verifyOneClick", "VerifyOneClick",
-    "/verifyOTP","VerifyOTP"
+    "/verifyOTP", "VerifyOTP",
+    "/authPage", "AuthPage"
 )
 
 app = web.application(urls, globals())
 render = web.template.render('templates')
+
 
 class VerifyOTP(object):
 
@@ -38,6 +40,7 @@ class VerifyOTP(object):
 
         result = yangcongApi.verifyOTP(userid, dnum)
         return json.dumps(result.result.getDictStruct())
+
 
 class VerifyOneClick(object):
 
@@ -59,16 +62,18 @@ class LoginCode(object):
 class Result:
 
     def GET(self):
-        uuid = web.input().uuid
-        result = {
-            "code": 300060,
-            "message": "params error"
-        }
-        if uuid:
-            result = yangcongApi.getResult(uuid)
-            return json.dumps(result.result.getDictStruct())
+        result = yangcongApi.getResult()
+        return json.dumps(result.result.getDictStruct())
+
+
+class AuthPage(object):
+
+    def GET(self):
+        result = yangcongApi.authPage("http://www.baidu.com")
+        if result.success:
+            web.seeother(result.result.url)
         else:
-            return json.dumps(result)
+            return "has fail"
 
 
 class Bind:
@@ -79,7 +84,7 @@ class Bind:
 
         # 当返回状态正确时
         if code.success:
-            return render.bind(code.result.url, code.result.uuid)
+            return render.bind(code.result.url)
         else:
             return render.error(code.result.code, code.result.message)
 

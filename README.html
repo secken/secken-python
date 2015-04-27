@@ -899,7 +899,7 @@ body .markdown-body
 </tr>
 <tr>
 <td align="left"><a href="#user-content-getResult">getResult</a></td>
-<td align="left">(uuid)</td>
+<td align="left">()</td>
 <td align="left">获取结果</td>
 </tr>
 <tr>
@@ -1492,36 +1492,19 @@ body .markdown-body
                                                             <td>0</td>
                                                             <td>请求成功</td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>6</td>
-                                                            <td>系统错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>7</td>
-                                                            <td>用户不存在</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>15</td>
-                                                            <td>签名错误</td>
-                                                        </tr>
-                                                            <td>19</td>
-                                                            <td>appid或者appkey错误</td>
-                                                        
-                                                        <tr>
-                                                            <td>300008</td>
-                                                            <td>参数格式错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>*message</td>
+                                            <td>
+                                                当code不为0时返回错误信息
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>*url</td>
+                                            <td>当请求成功时返回授权页地址</td>
                                         </tr>
                                     </tbody>
                                 </table>
