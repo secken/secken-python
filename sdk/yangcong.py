@@ -6,6 +6,7 @@ import md5
 import json
 import threading
 import time
+import base64
 
 
 class StringException(Exception):
@@ -46,7 +47,6 @@ class api(object):
     __domain = ".yangcong.com"
     __protocol = "https"
     __version = "v1"
-    __uuid = None
     __timeout = False
     __sdkVersion = "1.1 Beta"
 
@@ -115,16 +115,16 @@ class api(object):
                 "message": "network has exception"
             }
 
+        if json_dict["uuid"] is None:
+            raise ParamsException("server has fail can't not get uuid param")
+
+        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+
         # 返回dict结构
         result = {
             "success": json_dict["code"] == 0 and True or False,
             "result": RequestCallBack(json_dict)
         }
-
-        if json_dict["uuid"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
-        else:
-            self.__uuid = json_dict["uuid"]
 
         result = RequestCallBack(result)
 
@@ -143,6 +143,7 @@ class api(object):
         # 网络请求
 
         json_dict = None
+
         try:
             json_dict = self.__Post__(self.__getUrl("GetLoginCode"), data)
         except Exception, e:
@@ -151,36 +152,36 @@ class api(object):
                 "message": "network has exception"
             }
 
+        if json_dict["uuid"] is None:
+            raise ParamsException("server has fail can't not get uuid param")
+
+        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+
         # 返回dict结构
         result = {
             "success": json_dict["code"] == 0 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
-        if json_dict["uuid"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
-        else:
-            self.__uuid = json_dict["uuid"]
-
         return RequestCallBack(result)
 
-    def getResult(self):
+    def getResult(self, uuid):
         if self.__timeout:
             self.__timeout = False
             raise InterfaceTimeoutException(
                 "interface timeout. plesae recheck")
-        if self.__uuid:
+        if uuid:
+            uuid = base64.b64decode(uuid.decode("utf-8"))
             signature = "appid=%suuid=%s%s" % (
-                self.appid, self.__uuid, self.appkey)
+                self.appid, uuid, self.appkey)
 
             data = {
                 "appid": self.appid,
-                "uuid": self.__uuid,
+                "uuid": uuid,
                 "signature": md5.new(signature).hexdigest()
             }
 
             # 网络请求
-
             json_dict = None
             try:
                 json_dict = self.__Post__(self.__getUrl("GetResult"), data)
@@ -198,11 +199,7 @@ class api(object):
 
             code = json_dict["code"]
 
-            if code == 0:
-                self.__uuid = None
-
             if code == 300058:
-                self.__uuid = None
                 self.__timeout = True
 
             return RequestCallBack(result)
@@ -244,16 +241,16 @@ class api(object):
                 "message": "network has exception"
             }
 
+        if json_dict["uuid"] is None:
+            raise ParamsException("server has fail can't not get uuid param")
+
+        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+
         # 返回dict结构
         result = {
             "success": json_dict["code"] == 0 and True or False,
             "result": RequestCallBack(json_dict)
         }
-
-        if json_dict["uuid"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
-        else:
-            self.__uuid = json_dict["uuid"]
 
         return RequestCallBack(result)
 

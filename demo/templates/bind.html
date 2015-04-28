@@ -1,4 +1,4 @@
-$def with(qrUrl)
+$def with(uuid, qrUrl)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +10,9 @@ $def with(qrUrl)
             text-align: center;
         }
     </style>
+    <script type="text/javascript">
+        uuid = "$uuid"
+    </script>
     <script type="text/javascript" src="./static/js/jquery.js"></script>
     <script type="text/javascript" src="./static/js/main.js"></script>
 </head>

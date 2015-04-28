@@ -62,8 +62,18 @@ class LoginCode(object):
 class Result:
 
     def GET(self):
-        result = yangcongApi.getResult()
-        return json.dumps(result.result.getDictStruct())
+        uuid = web.input().get("uuid", None)
+        if uuid:
+            result = yangcongApi.getResult(uuid)
+            return json.dumps(result.result.getDictStruct())
+        else:
+            return json.dumps({
+                "success", False,
+                {
+                    "code": -2,
+                    "message": "参数错误!"
+                }
+            })
 
 
 class AuthPage(object):
@@ -80,11 +90,12 @@ class Bind:
 
     def GET(self):
 
+        # 从sdk获取绑定码
         code = yangcongApi.getBindingCode()
 
         # 当返回状态正确时
         if code.success:
-            return render.bind(code.result.url)
+            return render.bind(code.result.uuid, code.result.url)
         else:
             return render.error(code.result.code, code.result.message)
 

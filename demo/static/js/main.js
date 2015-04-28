@@ -1,8 +1,10 @@
 userid = null
 bind = false
 
-function getResult(element, msg) {
-    $.getJSON("result", function(result) {
+function getResult(uuid, element, msg) {
+    $.getJSON("result", {
+        uuid: uuid
+    }, function(result) {
         console.log(result);
         if (result.code == 0) {
             $(element).html(msg);
@@ -17,7 +19,7 @@ function getResult(element, msg) {
             }
             return;
         } else {
-            setTimeout(getResult(element, msg), 2000);
+            setTimeout(getResult(uuid, element, msg), 2000);
         }
     });
 }
@@ -28,7 +30,7 @@ function bindingSuccess() {
         $("#qrCodeLogin").attr("src", result.url);
         //显示页面逻辑
         $($(".middle")[1]).show();
-        getResult($($(".middle")[1]).find("h5")[0], "登陆成功！");
+        getResult(result.uuid, $($(".middle")[1]).find("h5")[0], "登陆成功！");
     });
 }
 
@@ -38,7 +40,7 @@ function clickLogin() {
         action: "test"
     }, function(result) {
         console.log(result)
-        getResult($($(".middle")[1]).find("h5")[1], "登陆成功！");
+        getResult(result.uuid, $($(".middle")[1]).find("h5")[1], "登陆成功！");
     });
 }
 
@@ -61,4 +63,4 @@ function dnumLogin() {
     });
 }
 
-getResult($($(".middle")[0]).find("h5"), "绑定成功！");
+getResult(uuid, $($(".middle")[0]).find("h5"), "绑定成功！");
