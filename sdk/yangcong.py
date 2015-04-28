@@ -48,7 +48,7 @@ class api(object):
     __version = "v1"
     __uuid = None
     __timeout = False
-    __sdkVersion = "1.0 Beta"
+    __sdkVersion = "1.1 Beta"
 
     def __Get__(self, url, data):
         params = ""
@@ -198,10 +198,10 @@ class api(object):
 
             code = json_dict["code"]
 
-            if code is 0:
+            if code == 0:
                 self.__uuid = None
 
-            if code is 300058:
+            if code == 300058:
                 self.__uuid = None
                 self.__timeout = True
 
