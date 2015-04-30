@@ -95,9 +95,9 @@ class Bind:
 
         # 当返回状态正确时
         if code.success:
-            return render.bind(code.result.uuid, code.result.url)
+            return render.bind(code.result.event_id, code.result.qrcode_url)
         else:
-            return render.error(code.result.code, code.result.message)
+            return render.error(code.result.status, code.result.description)
 
 
 def main():

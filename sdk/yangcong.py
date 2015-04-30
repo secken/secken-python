@@ -46,9 +46,9 @@ class api(object):
     __www = "api"
     __domain = ".yangcong.com"
     __protocol = "https"
-    __version = "v1"
+    __version = "v2"
     __timeout = False
-    __sdkVersion = "1.1 Beta"
+    __sdkVersion = "1.2 Beta"
 
     def __Get__(self, url, data):
         params = ""
@@ -61,23 +61,26 @@ class api(object):
             params = params[0:len(params) - 1]
 
         req = urllib2.Request(url + params)
-        req.add_header('SDK', self.__sdkVersion)
+        print url, params
+        req.add_header('Sdk', self.__sdkVersion)
         response = urllib2.urlopen(req)
-        url = response.geturl()
-        json_dict = {
-            "code": 0,
-            "url": url
-        }
-        return json_dict
+        return response
 
     def __Post__(self, url, data):
         post_data = urllib.urlencode(data)
         req = urllib2.Request(url, post_data)
         req.add_header('Content-Type', "application/x-www-form-urlencoded")
-        req.add_header('SDK', self.__sdkVersion)
+        req.add_header('Sdk', self.__sdkVersion)
         response = urllib2.urlopen(req)
+        return response
+    
+    def __ResponseToJson__(self, response):
         json_dict = json.loads(response.read())
         return json_dict
+        
+    def __ResponseToLocation__(self, response):
+        url = response.geturl()
+        return url
 
     def __init__(self, appid, appkey, authid):
         if appid:
@@ -101,43 +104,43 @@ class api(object):
     def getBindingCode(self):
         # 传递参数
         data = {
-            "appid": self.appid,
-            "signature": md5.new("appid=%s" % (self.appid + self.appkey)).hexdigest()
+            "app_id": self.appid,
+            "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
         }
 
         # 网络请求
         json_dict = None
         try:
-            json_dict = self.__Post__(self.__getUrl("GetBindingCode"), data)
+            json_dict = \
+                self.__ResponseToJson__(
+                    self.__Get__(
+                        self.__getUrl("qrcode_for_binding"), data))
         except Exception, e:
             json_dict = {
                 "code": -1,
                 "message": "network has exception"
             }
 
-        if json_dict["uuid"] is None:
+        if json_dict["event_id"] is None:
             raise ParamsException("server has fail can't not get uuid param")
 
-        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+        json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
 
         # 返回dict结构
         result = {
-            "success": json_dict["code"] == 0 and True or False,
+            "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
         result = RequestCallBack(result)
-
-        # debug
-        # print result
-
+        
         return result
 
     def getLoginCode(self):
         # 传递参数
         data = {
-            "appid": self.appid,
-            "signature": md5.new("appid=%s" % (self.appid + self.appkey)).hexdigest()
+            "app_id": self.appid,
+            "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
         }
 
         # 网络请求
@@ -145,21 +148,24 @@ class api(object):
         json_dict = None
 
         try:
-            json_dict = self.__Post__(self.__getUrl("GetLoginCode"), data)
+            json_dict = \
+                self.__ResponseToJson__(
+                    self.__Get__(
+                        self.__getUrl("qrcode_for_auth"), data))
         except Exception, e:
             json_dict = {
                 "code": -1,
                 "message": "network has exception"
             }
 
-        if json_dict["uuid"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
+        if json_dict["event_id"] is None:
+            raise ParamsException("server has fail can't not get event_id param")
 
-        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+        json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
 
         # 返回dict结构
         result = {
-            "success": json_dict["code"] == 0 and True or False,
+            "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
@@ -172,19 +178,22 @@ class api(object):
                 "interface timeout. plesae recheck")
         if uuid:
             uuid = base64.b64decode(uuid.decode("utf-8"))
-            signature = "appid=%suuid=%s%s" % (
+            signature = "app_id=%sevent_id=%s%s" % (
                 self.appid, uuid, self.appkey)
 
             data = {
-                "appid": self.appid,
-                "uuid": uuid,
+                "app_id": self.appid,
+                "event_id": uuid,
                 "signature": md5.new(signature).hexdigest()
             }
 
             # 网络请求
             json_dict = None
             try:
-                json_dict = self.__Post__(self.__getUrl("GetResult"), data)
+                json_dict = \
+                    self.__ResponseToJson__(
+                        self.__Get__(
+                            self.__getUrl("event_result"), data))
             except Exception, e:
                 json_dict = {
                     "code": -1,
@@ -193,13 +202,13 @@ class api(object):
 
             # 返回dict结构
             result = {
-                "success": json_dict["code"] == 0 and True or False,
+                "success": json_dict["status"] == 200 and True or False,
                 "result": RequestCallBack(json_dict)
             }
 
-            code = json_dict["code"]
+            code = json_dict["status"]
 
-            if code == 300058:
+            if code == 603:
                 self.__timeout = True
 
             return RequestCallBack(result)
@@ -214,61 +223,67 @@ class api(object):
         if action == None:
             raise ParamsException("action can't be 'None'")
 
-        signature = "action=%sappid=%suserid=%s%s" % (
+        signature = "action_type=%sapp_id=%suid=%s%s" % (
             action, self.appid, userid, self.appkey)
 
         data = {
-            "appid": self.appid,
-            "userid": userid,
-            "action": action,
+            "app_id": self.appid,
+            "uid": userid,
+            "action_type": action,
             "signature": md5.new(signature).hexdigest()
         }
 
         if ip:
-            data["ip"] = ip
+            data["user_ip"] = ip
 
         if username:
-            data["username"] = username
+            data["Username"] = username
 
         # 网络请求
 
         json_dict = None
         try:
-            json_dict = self.__Post__(self.__getUrl("VerifyOneClick"), data)
+            json_dict = \
+                self.__ResponseToJson__(
+                    self.__Post__(
+                        self.__getUrl("realtime_authorization"), data))
         except Exception, e:
             json_dict = {
                 "code": -1,
                 "message": "network has exception"
             }
 
-        if json_dict["uuid"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
+        if json_dict["event_id"] is None:
+            raise ParamsException("server has fail can't not get event_id param")
 
-        json_dict["uuid"] = base64.b64encode(json_dict["uuid"].decode("utf-8"))
+        json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
 
         # 返回dict结构
         result = {
-            "success": json_dict["code"] == 0 and True or False,
+            "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
         return RequestCallBack(result)
 
     def verifyOTP(self, userid, dnum):
-        signature = "appid=%sdnum=%suserid=%s%s" % (
+        signature = "app_id=%sdynamic_code=%suid=%s%s" % (
             self.appid, dnum, userid, self.appkey)
 
         data = {
-            "appid": self.appid,
-            "userid": userid,
-            "dnum": dnum,
+            "app_id": self.appid,
+            "uid": userid,
+            "dynamic_code": dnum,
             "signature": md5.new(signature).hexdigest()
         }
 
         # 网络请求
         json_dict = None
         try:
-            json_dict = self.__Post__(self.__getUrl("VerifyOTP"), data)
+            json_dict = \
+                self.__ResponseToJson__(
+                    self.__Post__(
+                        self.__getUrl("offline_authorization"), data))
         except Exception, e:
             json_dict = {
                 "code": -1,
@@ -277,7 +292,7 @@ class api(object):
 
         # 返回dict结构
         result = {
-            "success": json_dict["code"] == 0 and True or False,
+            "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
@@ -285,12 +300,12 @@ class api(object):
 
     def authPage(self, callback):
         t = long(round(time.time()))
-        signature = "authid=%scallback=%stime=%s%s" % (
+        signature = "auth_id=%scallback=%stimestamp=%s%s" % (
             self.authid, callback, t, self.appkey)
 
         data = {
-            "time": t,
-            "authid": self.authid,
+            "timestamp": t,
+            "auth_id": self.authid,
             "callback": callback,
             "signature": md5.new(signature).hexdigest()
         }
@@ -298,7 +313,10 @@ class api(object):
         # 网络请求
         json_dict = None
         try:
-            json_dict = self.__Get__(self.__getUrl("AuthPage", "auth"), data)
+            json_dict = \
+                self.__ResponseToJson__(
+                    self.__Get__(
+                        self.__getUrl("auth_page", "auth"), data))
         except Exception, e:
             json_dict = {
                 "code": -1,
@@ -307,7 +325,7 @@ class api(object):
 
         # 返回dict结构
         result = {
-            "success": json_dict["code"] == 0 and True or False,
+            "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
 
