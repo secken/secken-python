@@ -9,5 +9,5 @@ setup(
     url="http://www.yangcong.com",
     license="LGPL",
     packages=find_packages(),
-    scripts=["sdk/yangcong.py"],
+    scripts=["yangcong/yangcong.py"],
 )
