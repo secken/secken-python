@@ -39,7 +39,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -53,7 +53,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>code</td>
+                                            <td>status</td>
                                             <td>
                                                 返回状态码:
                                                 <table>
@@ -63,52 +63,48 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>8</td>
+                                                            <td>404</td>
                                                             <td>app不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>15</td>
+                                                            <td>403</td>
                                                             <td>签名错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>19</td>
-                                                            <td>appid 或者 appkey 错误</td>
+                                                            <td>402</td>
+                                                            <td>appid错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300008</td>
+                                                            <td>400</td>
                                                             <td>参数格式错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300018</td>
-                                                            <td>获取二维码图片失败</td>
+                                                            <td>501</td>
+                                                            <td>获取二维码失败</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
+                                                            <td>407</td>
+                                                            <td>请求接口过于频繁</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>message</td>
+                                            <td>description</td>
                                             <td>状态信息</td>
                                         </tr>
                                         <tr>
-                                            <td>*url</td>
+                                            <td>*qrcode_url</td>
                                             <td>请求成功时返回二维码地址</td>
                                         </tr>
                                         <tr>
-                                            <td>*uuid</td>
-                                            <td>请求成功时返回uuid</td>
+                                            <td>*event_id</td>
+                                            <td>请求成功时返回event_id</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -140,7 +136,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -154,7 +150,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>code</td>
+                                            <td>status</td>
                                             <td>
                                                 返回状态码:
                                                 <table>
@@ -164,52 +160,48 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>8</td>
+                                                            <td>404</td>
                                                             <td>app不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>15</td>
+                                                            <td>403</td>
                                                             <td>签名错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>19</td>
-                                                            <td>appid 或者 appkey 错误</td>
+                                                            <td>402</td>
+                                                            <td>appid错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300008</td>
+                                                            <td>400</td>
                                                             <td>参数格式错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300018</td>
+                                                            <td>501</td>
                                                             <td>获取二维码图片失败</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
+                                                            <td>407</td>
+                                                            <td>请求接口过于频繁</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>message</td>
+                                            <td>description</td>
                                             <td>状态信息</td>
                                         </tr>
                                         <tr>
-                                            <td>*url</td>
+                                            <td>*qrcode_url</td>
                                             <td>请求成功时返回二维码地址</td>
                                         </tr>
                                         <tr>
-                                            <td>*uuid</td>
-                                            <td>请求成功时返回uuid</td>
+                                            <td>*event_id</td>
+                                            <td>请求成功时返回event_id</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -242,7 +234,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -256,7 +248,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>code</td>
+                                            <td>status</td>
                                             <td>
                                                 返回状态码:
                                                 <table>
@@ -266,65 +258,57 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>8</td>
+                                                            <td>404</td>
                                                             <td>app不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>15</td>
+                                                            <td>403</td>
                                                             <td>签名错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>19</td>
-                                                            <td>appid 或者 appkey 错误</td>
+                                                            <td>402</td>
+                                                            <td>appid错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300008</td>
+                                                            <td>400</td>
                                                             <td>参数格式错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
+                                                            <td>407</td>
+                                                            <td>请求接口过于频繁</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300040</td>
-                                                            <td>推送消息失败</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300055</td>
+                                                            <td>601</td>
                                                             <td>用户拒绝授权验证</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300056</td>
-                                                            <td>用户未操作或UUID不存在，可重试</td>
+                                                            <td>602</td>
+                                                            <td>等待用户响应超时，可重试</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300058</td>
-                                                            <td>用户未操作，已超时，不可重试</td>
+                                                            <td>603</td>
+                                                            <td>用户响应超时，不可重试</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>message</td>
+                                            <td>description</td>
                                             <td>状态信息</td>
                                         </tr>
                                         <tr>
-                                            <td>*userid</td>
+                                            <td>*uid</td>
                                             <td>返回用户ID</td>
                                         </tr>
                                         <tr>
                                             <td>*signature</td>
-                                            <td>返回签名：[MD5(userid=$useridappkey)]
-例：userid=aaaa appkey=bbbb MD5(userid=aaaabbbb)</td>
+                                            <td>返回签名：[MD5(uid=$uidapp_key)]
+例：uid=aaaa app_key=bbbb MD5(uid=aaaabbbb)</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -357,7 +341,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -371,7 +355,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>code</td>
+                                            <td>status</td>
                                             <td>
                                                 返回状态码:
                                                 <table>
@@ -381,39 +365,35 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>7</td>
+                                                            <td>604</td>
                                                             <td>用户不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>8</td>
+                                                            <td>404</td>
                                                             <td>app不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>15</td>
+                                                            <td>403</td>
                                                             <td>签名错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300008</td>
+                                                            <td>400</td>
                                                             <td>参数格式错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
+                                                            <td>407</td>
+                                                            <td>请求接口过于频繁</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>*uuid</td>
+                                            <td>*event_id</td>
                                             <td>返回事件id</td>
                                         </tr>
                                     </tbody>
@@ -447,7 +427,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -461,7 +441,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>code</td>
+                                            <td>status</td>
                                             <td>
                                                 返回状态码:
                                                 <table>
@@ -471,44 +451,36 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>6</td>
-                                                            <td>系统错误</td>
+                                                            <td>500</td>
+                                                            <td>洋葱系统服务错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>7</td>
+                                                            <td>604</td>
                                                             <td>用户不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>8</td>
+                                                            <td>404</td>
                                                             <td>app不存在</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>15</td>
+                                                            <td>403</td>
                                                             <td>签名错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>17</td>
-                                                            <td>appkey匹配失败</td>
+                                                            <td>402</td>
+                                                            <td>appkey匹配失败appid匹配失败</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>19</td>
-                                                            <td>appid或者appkey错误</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300008</td>
+                                                            <td>400</td>
                                                             <td>参数格式错误</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>300022</td>
-                                                            <td>错误请求过于频繁</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>300039</td>
-                                                            <td>调用接口过于频繁</td>
+                                                            <td>407</td>
+                                                            <td>请求接口过于频繁</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -545,7 +517,7 @@
                         </tr>
                         <tr>
                             <td>success</td>
-                            <td>如果result.code为0则为True否则为False</td>
+                            <td>如果result.status为0则为True否则为False</td>
                         </tr>
                         <tr>
                             <td>result</td>
@@ -569,7 +541,7 @@
                                                             <td>网络异常</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>0</td>
+                                                            <td>200</td>
                                                             <td>请求成功</td>
                                                         </tr>
                                                     </tbody>

@@ -26,7 +26,6 @@ class ParamsException(StringException):
 class InterfaceTimeoutException(StringException):
     pass
 
-
 class RequestCallBack(object):
 
     def __init__(self, entries):
@@ -61,7 +60,6 @@ class api(object):
             params = params[0:len(params) - 1]
 
         req = urllib2.Request(url + params)
-        print url, params
         req.add_header('Sdk', self.__sdkVersion)
         response = urllib2.urlopen(req)
         return response
@@ -117,8 +115,8 @@ class api(object):
                         self.__getUrl("qrcode_for_binding"), data))
         except Exception, e:
             json_dict = {
-                "code": -1,
-                "message": "network has exception"
+                "status": -1,
+                "description": "network has exception"
             }
 
         if json_dict["event_id"] is None:
@@ -154,8 +152,8 @@ class api(object):
                         self.__getUrl("qrcode_for_auth"), data))
         except Exception, e:
             json_dict = {
-                "code": -1,
-                "message": "network has exception"
+                "status": -1,
+                "description": "network has exception"
             }
 
         if json_dict["event_id"] is None:
@@ -196,8 +194,8 @@ class api(object):
                             self.__getUrl("event_result"), data))
             except Exception, e:
                 json_dict = {
-                    "code": -1,
-                    "message": "network has exception"
+                    "status": -1,
+                    "description": "network has exception"
                 }
 
             # 返回dict结构
@@ -249,8 +247,8 @@ class api(object):
                         self.__getUrl("realtime_authorization"), data))
         except Exception, e:
             json_dict = {
-                "code": -1,
-                "message": "network has exception"
+                "status": -1,
+                "description": "network has exception"
             }
 
         if json_dict["event_id"] is None:
@@ -286,8 +284,8 @@ class api(object):
                         self.__getUrl("offline_authorization"), data))
         except Exception, e:
             json_dict = {
-                "code": -1,
-                "message": "network has exception"
+                "status": -1,
+                "description": "network has exception"
             }
 
         # 返回dict结构
@@ -314,13 +312,17 @@ class api(object):
         json_dict = None
         try:
             json_dict = \
-                self.__ResponseToJson__(
-                    self.__Get__(
-                        self.__getUrl("auth_page", "auth"), data))
+            {
+                "url": self.__ResponseToLocation__(
+                        self.__Get__(
+                            self.__getUrl("auth_page", "auth"), data)),
+                "status":200 
+            }
         except Exception, e:
+            print e
             json_dict = {
-                "code": -1,
-                "message": "network has exception"
+                "status": -1,
+                "description": "network has exception"
             }
 
         # 返回dict结构

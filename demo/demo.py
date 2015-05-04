@@ -70,7 +70,7 @@ class Result:
             return json.dumps({
                 "success", False,
                 {
-                    "code": -2,
+                    "status": -2,
                     "message": "参数错误!"
                 }
             })
@@ -80,6 +80,7 @@ class AuthPage(object):
 
     def GET(self):
         result = yangcongApi.authPage("http://www.baidu.com")
+        print result
         if result.success:
             web.seeother(result.result.url)
         else:
