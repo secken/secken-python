@@ -57,7 +57,7 @@ class api(object):
                 params += x
                 params += "=" + str(data[x])
                 params += "&"
-            params = params[0:len(params) - 1]
+            params = params[:-1]
 
         req = urllib2.Request(url + params)
         req.add_header('Sdk', self.__sdkVersion)
@@ -119,10 +119,12 @@ class api(object):
                 "description": "network has exception"
             }
 
-        if json_dict["event_id"] is None:
-            raise ParamsException("server has fail can't not get uuid param")
+        event_id = json_dict.get("event_id",None)
 
-        json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
+        if event_id is None:
+            raise ParamsException("server has fail can't not get event_id param")
+
+        json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
         # 返回dict结构
         result = {
@@ -156,10 +158,12 @@ class api(object):
                 "description": "network has exception"
             }
 
-        if json_dict["event_id"] is None:
+        event_id = json_dict.get("event_id",None)
+
+        if event_id is None:
             raise ParamsException("server has fail can't not get event_id param")
 
-        json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
+        json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
         # 返回dict结构
         result = {
@@ -214,7 +218,7 @@ class api(object):
             raise ParamsException(
                 "before getResult please call getLoginCode or getBindingCode or verifyOneClick")
 
-    def verifyOneClick(self, userid, action, ip=None, username=None):
+    def verifyOneClick(self, userid, action="", ip=None, username=None):
 
         if userid == None:
             raise ParamsException("userid can't be 'None'")
@@ -319,7 +323,6 @@ class api(object):
                 "status":200 
             }
         except Exception, e:
-            print e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"

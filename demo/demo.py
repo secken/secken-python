@@ -3,16 +3,16 @@ import sys
 sys.path.append("..")
 
 # import sdk.yangcong.api as yc
-from sdk.yangcong import api as yangcong
+from yangcong import api as yangcong
 
 # 官方测试AppId
-__appid = "sBhl0JlvYRgl5pavOMredpVqY8XZruZR"
+__appid = "---请填入appid---"
 
 # 官方测试AppKey
-__appkey = "0bZKeXF1VYDrP8GI99lj"
+__appkey = "---请填入appkey---"
 
 # 官方测试AuthId
-__authid = "8JFOz3jUoSeiBYq6Lp8g"
+__authid = "---请填入authid---"
 
 yangcongApi = yangcong(__appid, __appkey, __authid)
 

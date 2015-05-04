@@ -9,14 +9,28 @@
 
 &emsp;&emsp;&emsp;洋葱sdk
 
+###### sample
+
+>```python
+>from yangcong import api as yangcong
+>
+>yangcongApi = yangcong(appkey,appid,authid)
+>
+>result = yangcongApi.getBindingCode()
+>if result.success:
+>    # 返回二维码地址
+>    return result.result.qrcode_url
+>
+>```
+
 | Name        | Struct                | Description                     |
 | :--------    | :----------------      | :-------------                   |
 | [\_\_init\_\_](#__init__) | (appid,appkey,authid) | 传入洋葱提供的appid appkey authid |
 | [getBindingCode](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
 | [getLoginCode](#user-content-getLoginCode) | () | 获取登陆二维码 |
-| [getResult](#user-content-getResult) | () | 获取结果 |
-| [verifyOneClick](#user-content-verifyOneClick) | (userid,action,ip,username) | 验证一键认证 |
-| [verifyOTP](#user-content-verifyOTP) | (userid,dnum) | 验证动态码 |
+| [getResult](#user-content-getResult) | (event_id) | 获取结果 |
+| [verifyOneClick](#user-content-verifyOneClick) | (uid,\*action,\*ip,\*username) | 验证一键认证 |
+| [verifyOTP](#user-content-verifyOTP) | (uid,dynamic_code) | 验证动态码 |
 | [authPage](#user-content-authPage) | (callback) | 洋葱授权页 |
 
 <h6 id="getBindingCode">getBindingCode</h6>

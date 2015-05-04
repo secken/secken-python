@@ -873,6 +873,21 @@ body .markdown-body
 
 <p>   洋葱sdk</p>
 
+<h6>
+<a id="user-content-sample" class="anchor" href="#sample" aria-hidden="true"><span class="octicon octicon-link"></span></a>sample</h6>
+
+<blockquote>
+<div class="highlight highlight-python"><pre><span class="pl-k">from</span> yangcong <span class="pl-k">import</span> api <span class="pl-k">as</span> yangcong
+
+yangcongApi <span class="pl-k">=</span> yangcong(appkey,appid,authid)
+
+result <span class="pl-k">=</span> yangcongApi.getBindingCode()
+<span class="pl-k">if</span> result.success:
+   <span class="pl-c"># 返回二维码地址</span>
+   <span class="pl-k">return</span> result.result.qrcode_url
+</pre></div>
+</blockquote>
+
 <table>
 <thead>
 <tr>
@@ -899,17 +914,17 @@ body .markdown-body
 </tr>
 <tr>
 <td align="left"><a href="#user-content-getResult">getResult</a></td>
-<td align="left">()</td>
+<td align="left">(event_id)</td>
 <td align="left">获取结果</td>
 </tr>
 <tr>
 <td align="left"><a href="#user-content-verifyOneClick">verifyOneClick</a></td>
-<td align="left">(userid,action,ip,username)</td>
+<td align="left">(uid,*action,*ip,*username)</td>
 <td align="left">验证一键认证</td>
 </tr>
 <tr>
 <td align="left"><a href="#user-content-verifyOTP">verifyOTP</a></td>
-<td align="left">(userid,dnum)</td>
+<td align="left">(uid,dynamic_code)</td>
 <td align="left">验证动态码</td>
 </tr>
 <tr>
