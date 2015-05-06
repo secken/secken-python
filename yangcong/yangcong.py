@@ -45,7 +45,6 @@ class RequestCallBack(object):
 
         for x in result:
             if type(result[x]) is RequestCallBack:
-                print "sdk debug", result[x]
                 result[x] = result[x].getDictStruct()
                 
         return result
