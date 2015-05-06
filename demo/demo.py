@@ -6,13 +6,13 @@ sys.path.append("..")
 from yangcong import api as yangcong
 
 # 官方测试AppId
-__appid = "---请填入appid---"
+__appid = "sBhl0JlvYRgl5pavOMredpVqY8XZruZR"
 
 # 官方测试AppKey
-__appkey = "---请填入appkey---"
+__appkey = "0bZKeXF1VYDrP8GI99lj"
 
 # 官方测试AuthId
-__authid = "---请填入authid---"
+__authid = "8JFOz3jUoSeiBYq6Lp8g"
 
 yangcongApi = yangcong(__appid, __appkey, __authid)
 
@@ -80,7 +80,6 @@ class AuthPage(object):
 
     def GET(self):
         result = yangcongApi.authPage("http://www.baidu.com")
-        print result
         if result.success:
             web.seeother(result.result.url)
         else:

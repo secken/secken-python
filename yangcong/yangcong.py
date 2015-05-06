@@ -1,4 +1,4 @@
-# coding=u8
+# coding=utf8
 
 import urllib2
 import urllib
@@ -29,6 +29,7 @@ class InterfaceTimeoutException(StringException):
 class RequestCallBack(object):
 
     def __init__(self, entries):
+        self.__entries = entries
         self.__dict__.update(**entries)
 
     def __str__(self):
@@ -38,8 +39,16 @@ class RequestCallBack(object):
         return repr(self.__dict__)
 
     def getDictStruct(self):
-        return self.__dict__
+        
+        result = dict()
+        result.update(**self.__entries)
 
+        for x in result:
+            if type(result[x]) is RequestCallBack:
+                print "sdk debug", result[x]
+                result[x] = result[x].getDictStruct()
+                
+        return result
 
 class api(object):
     __www = "api"
@@ -47,7 +56,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "1.2 Beta"
+    __sdkVersion = "1.5 Stable"
 
     def __Get__(self, url, data):
         params = ""
@@ -131,7 +140,7 @@ class api(object):
             "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
-
+        
         result = RequestCallBack(result)
         
         return result
@@ -213,7 +222,9 @@ class api(object):
             if code == 603:
                 self.__timeout = True
 
-            return RequestCallBack(result)
+            result = RequestCallBack(result)
+
+            return result
         else:
             raise ParamsException(
                 "before getResult please call getLoginCode or getBindingCode or verifyOneClick")

@@ -1,16 +1,6 @@
+#### Examples
 
-## yangcong.py
-
-##### RequestCallBack
-
-&emsp;&emsp;&emsp;根据接口返回数据
-
-##### api
-
-&emsp;&emsp;&emsp;洋葱sdk
-
-###### sample
-
+###### getBindingCode
 >```python
 >from yangcong import api as yangcong
 >
@@ -22,6 +12,29 @@
 >    return result.result.qrcode_url
 >
 >```
+
+###### getLoginCode
+>```python
+>from yangcong import api as yangcong
+>
+>yangcongApi = yangcong(appkey,appid,authid)
+>
+>result = yangcongApi.getLoginCode()
+>if result.success:
+>    # 返回二维码地址
+>    return result.result.qrcode_url
+>
+>```
+
+#### Api Document
+
+##### RequestCallBack
+
+&emsp;&emsp;&emsp;根据接口返回数据
+
+##### api
+
+&emsp;&emsp;&emsp;洋葱sdk
 
 | Name        | Struct                | Description                     |
 | :--------    | :----------------      | :-------------                   |
