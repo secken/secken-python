@@ -55,7 +55,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "1.6 Stable"
+    __sdkVersion = "1.7 Stable"
 
     def __Get__(self, url, data):
         params = ""
@@ -130,7 +130,10 @@ class api(object):
         event_id = json_dict.get("event_id",None)
 
         if event_id is None:
-            raise ParamsException("server has fail can't not get event_id param")
+            if json_dict["status"] == 200:
+                raise ParamsException("server has fail can't not get event_id param")
+            else:
+                raise ParamsException("api system fail!")
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
@@ -171,7 +174,10 @@ class api(object):
         event_id = json_dict.get("event_id",None)
 
         if event_id is None:
-            raise ParamsException("server has fail can't not get event_id param")
+            if json_dict["status"] == 200:
+                raise ParamsException("server has fail can't not get event_id param")
+            else:
+                raise ParamsException("api system fail!")
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
@@ -266,9 +272,11 @@ class api(object):
                 "status": -1,
                 "description": "network has exception"
             }
-
         if json_dict["event_id"] is None:
-            raise ParamsException("server has fail can't not get event_id param")
+            if json_dict["status"] == 200 :
+                raise ParamsException("server has fail can't not get event_id param")
+            else: 
+                raise ParamsException("api system fail!")
 
         json_dict["event_id"] = base64.b64encode(json_dict["event_id"].decode("utf-8"))
 
