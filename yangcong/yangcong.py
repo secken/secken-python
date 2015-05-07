@@ -46,7 +46,7 @@ class RequestCallBack(object):
         for x in result:
             if type(result[x]) is RequestCallBack:
                 result[x] = result[x].getDictStruct()
-                
+
         return result
 
 class api(object):
@@ -55,7 +55,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "1.5 Stable"
+    __sdkVersion = "1.6 Stable"
 
     def __Get__(self, url, data):
         params = ""
@@ -141,6 +141,8 @@ class api(object):
         }
         
         result = RequestCallBack(result)
+        
+        print result.getDictStruct()
         
         return result
 
