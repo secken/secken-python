@@ -55,7 +55,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "1.7 Stable"
+    __sdkVersion = "1.8 Stable"
 
     def __Get__(self, url, data):
         params = ""
@@ -145,7 +145,7 @@ class api(object):
         
         result = RequestCallBack(result)
         
-        print result.getDictStruct()
+        self.__timeout = False
         
         return result
 
@@ -186,6 +186,8 @@ class api(object):
             "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
+        
+        self.__timeout = False
 
         return RequestCallBack(result)
 
@@ -285,6 +287,8 @@ class api(object):
             "success": json_dict["status"] == 200 and True or False,
             "result": RequestCallBack(json_dict)
         }
+
+        self.__timeout = False
 
         return RequestCallBack(result)
 
