@@ -50,12 +50,18 @@ class RequestCallBack(object):
         return result
 
 class api(object):
+    
+    __debug = False
+    
+    def setDebug(self, debug):
+        self.__debug = debug
+    
     __www = "api"
     __domain = ".yangcong.com"
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "1.8 Stable"
+    __sdkVersion = "1.9 Stable"
 
     def __Get__(self, url, data):
         params = ""
@@ -122,6 +128,8 @@ class api(object):
                     self.__Get__(
                         self.__getUrl("qrcode_for_binding"), data))
         except Exception, e:
+            if __debug:
+                print "getBindingCode - __Get__ - " + str(e) 
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -166,6 +174,8 @@ class api(object):
                     self.__Get__(
                         self.__getUrl("qrcode_for_auth"), data))
         except Exception, e:
+            if __debug:
+                print "getLoginCode - __Get__ - " + str(e)
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -215,6 +225,8 @@ class api(object):
                         self.__Get__(
                             self.__getUrl("event_result"), data))
             except Exception, e:
+                if __debug:
+                    	print "getResult - __Get__ - " + str(e)
                 json_dict = {
                     "status": -1,
                     "description": "network has exception"
@@ -270,6 +282,8 @@ class api(object):
                     self.__Post__(
                         self.__getUrl("realtime_authorization"), data))
         except Exception, e:
+            if __debug:
+                print "verifyOneClick - __Post__ - " + str(e)
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -311,6 +325,8 @@ class api(object):
                     self.__Post__(
                         self.__getUrl("offline_authorization"), data))
         except Exception, e:
+            if __debug:
+                print "verifyOTP - __Post__ - " + str(e)
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -347,6 +363,8 @@ class api(object):
                 "status":200 
             }
         except Exception, e:
+            if __debug:
+                print "authPage - __Get__ - " + str(e)
             json_dict = {
                 "status": -1,
                 "description": "network has exception"

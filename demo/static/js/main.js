@@ -13,7 +13,6 @@ function getResult(uuid, element, msg) {
             });
 
             if (!bind) {
-                
                 userid = result.uid;
                 bindingSuccess();
                 bind = true;
