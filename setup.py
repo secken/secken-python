@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 setup(
     name="yangcongsdk",
-    version="1.9",
+    version="2.0",
     description="洋葱官方python sdk",
     author="Secken",
     url="http://www.yangcong.com",
