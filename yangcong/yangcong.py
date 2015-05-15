@@ -58,12 +58,16 @@ class api(object):
     def setDebug(self, debug):
         self.__debug = debug
 
+    def setLevel(self, level, www="api"):
+        self.__www = www
+        self.__version = level
+
     __www = "api"
     __domain = ".yangcong.com"
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "2.0 Stable"
+    __sdkVersion = "2.1"
 
     def __Get__(self, url, data):
         params = ""
@@ -131,7 +135,7 @@ class api(object):
                         self.__getUrl("qrcode_for_binding"), data))
         except Exception, e:
             if self.__debug:
-                print "getBindingCode - __Get__ - " + str(e)
+                print "getBindingCode - __Get__ - " + e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -142,7 +146,7 @@ class api(object):
         if event_id is None:
 
             if self.__debug:
-                print "getBindingCode - Not Found event_id - " + str(e)
+                print "getBindingCode - Not Found event_id - " + e
             if json_dict["status"] == 200:
                 raise ParamsException(
                     "server has fail can't not get event_id param")
@@ -181,7 +185,7 @@ class api(object):
                         self.__getUrl("qrcode_for_auth"), data))
         except Exception, e:
             if self.__debug:
-                print "getLoginCode - __Get__ - " + str(e)
+                print "getLoginCode - __Get__ - " + e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -192,7 +196,7 @@ class api(object):
         if event_id is None:
 
             if self.__debug:
-                print "getLoginCode - Not Found event_id - " + str(e)
+                print "getLoginCode - Not Found event_id - " + e
 
             if json_dict["status"] == 200:
                 raise ParamsException(
@@ -237,7 +241,7 @@ class api(object):
                             self.__getUrl("event_result"), data))
             except Exception, e:
                 if self.__debug:
-                    print "getResult - __Get__ - " + str(e)
+                    print "getResult - __Get__ - " + e
                 json_dict = {
                     "status": -1,
                     "description": "network has exception"
@@ -294,7 +298,7 @@ class api(object):
                         self.__getUrl("realtime_authorization"), data))
         except Exception, e:
             if self.__debug:
-                print "verifyOneClick - __Post__ - " + str(e)
+                print "verifyOneClick - __Post__ - " + e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -302,7 +306,7 @@ class api(object):
         event_id = json_dict.get("event_id", None)
         if event_id is None:
             if self.__debug:
-                print "verifyOneClick - Not Found event_id - " + str(e)
+                print "verifyOneClick - Not Found event_id - " + e
 
             if json_dict["status"] == 200:
                 raise ParamsException(
@@ -343,7 +347,7 @@ class api(object):
                         self.__getUrl("offline_authorization"), data))
         except Exception, e:
             if self.__debug:
-                print "verifyOTP - __Post__ - " + str(e)
+                print "verifyOTP - __Post__ - " + e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
@@ -381,7 +385,7 @@ class api(object):
                 }
         except Exception, e:
             if self.__debug:
-                print "authPage - __Get__ - " + str(e)
+                print "authPage - __Get__ - " + e
             json_dict = {
                 "status": -1,
                 "description": "network has exception"
