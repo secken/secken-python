@@ -4,29 +4,29 @@ Python Version : 2.7
 
 #### Examples
 
-###### getBindingCode
+###### getBinding
 >```python
->from yangcong import api as yangcong
+>import secken
 >
->yangcongApi = yangcong(appkey,appid,authid)
+>seckenApi = secken.init(appkey,appid,authid)
 >
->result = yangcongApi.getBindingCode()
+>result = seckenApi.getBinding()
 >if result.success:
 >    # 返回二维码地址
->    return result.result.qrcode_url
+>    return result.qrcode_url
 >
 >```
 
-###### getLoginCode
+###### getAuth
 >```python
->from yangcong import api as yangcong
+>import secken
 >
->yangcongApi = yangcong(appkey,appid,authid)
+>seckenApi = secken.init(appkey,appid,authid)
 >
->result = yangcongApi.getLoginCode()
+>result = seckenApi.getAuth()
 >if result.success:
 >    # 返回二维码地址
->    return result.result.qrcode_url
+>    return result.qrcode_url
 >
 >```
 
@@ -43,11 +43,11 @@ Python Version : 2.7
 | Name        | Struct                | Description                     |
 | :--------    | :----------------      | :-------------                   |
 | [\_\_init\_\_](#__init__) | (appid,appkey,authid) | 传入洋葱提供的appid appkey authid |
-| [getBindingCode](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
-| [getLoginCode](#user-content-getLoginCode) | () | 获取登陆二维码 |
+| [getBinding](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
+| [getAuth](#user-content-getLoginCode) | () | 获取登陆二维码 |
 | [getResult](#user-content-getResult) | (event_id) | 获取结果 |
-| [verifyOneClick](#user-content-verifyOneClick) | (uid,\*action,\*ip,\*username) | 验证一键认证 |
-| [verifyOTP](#user-content-verifyOTP) | (uid,dynamic_code) | 验证动态码 |
+| [realtimeAuth](#user-content-verifyOneClick) | (uid,\*action,\*ip,\*username) | 验证一键认证 |
+| [offlineAuth](#user-content-verifyOTP) | (uid,dynamic_code) | 验证动态码 |
 | [authPage](#user-content-authPage) | (callback) | 洋葱授权页 |
 
 <h6 id="getBindingCode">getBindingCode</h6>
