@@ -4,7 +4,6 @@ import urllib2
 import urllib
 import md5
 import json
-import threading
 import time
 import base64
 
@@ -49,6 +48,10 @@ class RequestCallBack(object):
                 result[x] = result[x].getDictStruct()
 
         return result
+
+
+def init(appid, appkey, authid):
+    return api(appid, appkey, authid)
 
 
 class api(object):
@@ -142,13 +145,10 @@ class api(object):
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
-        # 返回dict结构
-        result = {
-            "success": json_dict["status"] == 200 and True or False,
-            "result": RequestCallBack(json_dict)
-        }
+        json_dict["success"] = (json_dict["status"] == 200 and True or False)
 
-        result = RequestCallBack(result)
+        # 返回dict结构
+        result = RequestCallBack(json_dict)
 
         self.__timeout = False
 
@@ -187,15 +187,14 @@ class api(object):
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
+        json_dict["success"] = (json_dict["status"] == 200 and True or False)
+
         # 返回dict结构
-        result = {
-            "success": json_dict["status"] == 200 and True or False,
-            "result": RequestCallBack(json_dict)
-        }
+        result = RequestCallBack(json_dict)
 
         self.__timeout = False
 
-        return RequestCallBack(result)
+        return result
 
     def getResult(self, uuid):
         if self.__timeout:
@@ -226,18 +225,16 @@ class api(object):
                     "description": "network has exception"
                 }
 
+            json_dict["success"] = (
+                json_dict["status"] == 200 and True or False)
+
             # 返回dict结构
-            result = {
-                "success": json_dict["status"] == 200 and True or False,
-                "result": RequestCallBack(json_dict)
-            }
+            result = RequestCallBack(json_dict)
 
             code = json_dict["status"]
 
             if code == 603:
                 self.__timeout = True
-
-            result = RequestCallBack(result)
 
             return result
         else:
@@ -291,15 +288,15 @@ class api(object):
         json_dict["event_id"] = base64.b64encode(
             json_dict["event_id"].decode("utf-8"))
 
+        json_dict["success"] = (
+            json_dict["status"] == 200 and True or False)
+
         # 返回dict结构
-        result = {
-            "success": json_dict["status"] == 200 and True or False,
-            "result": RequestCallBack(json_dict)
-        }
+        result = RequestCallBack(json_dict)
 
         self.__timeout = False
 
-        return RequestCallBack(result)
+        return result
 
     def verifyOTP(self, userid, dnum):
         signature = "app_id=%sdynamic_code=%suid=%s%s" % (
@@ -325,13 +322,13 @@ class api(object):
                 "description": "network has exception"
             }
 
-        # 返回dict结构
-        result = {
-            "success": json_dict["status"] == 200 and True or False,
-            "result": RequestCallBack(json_dict)
-        }
+        json_dict["success"] = (
+            json_dict["status"] == 200 and True or False)
 
-        return RequestCallBack(result)
+        # 返回dict结构
+        result = RequestCallBack(json_dict)
+
+        return result
 
     def authPage(self, callback):
         t = long(round(time.time()))
@@ -361,10 +358,10 @@ class api(object):
                 "description": "network has exception"
             }
 
-        # 返回dict结构
-        result = {
-            "success": json_dict["status"] == 200 and True or False,
-            "result": RequestCallBack(json_dict)
-        }
+        json_dict["success"] = (
+            json_dict["status"] == 200 and True or False)
 
-        return RequestCallBack(result)
+        # 返回dict结构
+        result = RequestCallBack(json_dict)
+
+        return result

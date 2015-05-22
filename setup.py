@@ -2,12 +2,12 @@
 
 from setuptools import setup, find_packages
 setup(
-    name="yangcongsdk",
+    name="secken-api",
     version="2.4",
     description="洋葱官方python sdk",
     author="Secken",
-    url="http://www.yangcong.com",
+    url="http://www.secken.com",
     license="LGPL",
     packages=find_packages(),
-    scripts=["yangcong/yangcong.py"],
+    scripts=["secken.py"],
 )
