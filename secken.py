@@ -113,7 +113,7 @@ class api(object):
             www = self.__www
         return "%s://%s%s/%s/%s" % (self.__protocol, www, self.__domain, self.__version, name)
 
-    def get_qrcode_for_binding(self):
+    def getBinding(self):
         # 传递参数
         data = {
             "app_id": self.appid,
@@ -154,7 +154,7 @@ class api(object):
 
         return result
 
-    def get_qrcode_for_auth(self):
+    def getAuth(self):
         # 传递参数
         data = {
             "app_id": self.appid,
@@ -196,7 +196,7 @@ class api(object):
 
         return result
 
-    def get_event_result(self, uuid):
+    def getResult(self, uuid):
         if self.__timeout:
             self.__timeout = False
             raise InterfaceTimeoutException(
@@ -241,7 +241,7 @@ class api(object):
             raise ParamsException(
                 "before getResult please call getLoginCode or getBindingCode or verifyOneClick")
 
-    def realtime_authorization(self, userid, action="", ip=None, username=None):
+    def realtimeAuth(self, userid, action="", ip=None, username=None):
 
         if userid == None:
             raise ParamsException("userid can't be 'None'")
@@ -298,7 +298,7 @@ class api(object):
 
         return result
 
-    def offline_authorization(self, userid, dnum):
+    def offlineAuth(self, userid, dnum):
         signature = "app_id=%sdynamic_code=%suid=%s%s" % (
             self.appid, dnum, userid, self.appkey)
 
@@ -330,7 +330,7 @@ class api(object):
 
         return result
 
-    def jump_auth_page(self, callback):
+    def authPage(self, callback):
         t = long(round(time.time()))
         signature = "auth_id=%scallback=%stimestamp=%s%s" % (
             self.authid, callback, t, self.appkey)
