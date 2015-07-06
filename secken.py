@@ -1,3 +1,27 @@
+# coding=u8
+# Copyright 2014-2015 Secken, Inc.  All Rights Reserved.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# NOTICE:  All information contained herein is, and remains
+# the property of Secken, Inc. and its suppliers, if any.
+# The intellectual and technical concepts contained
+# herein are proprietary to Secken, Inc. and its suppliers
+# and may be covered by China and Foreign Patents,
+# patents in process, and are protected by trade secret or copyright law.
+# Dissemination of this information or reproduction of this material
+# is strictly forbidden unless prior written permission is obtained
+# from Secken, Inc..
+#
+# 注意：此处包含的所有信息，均属于Secken, Inc.及其供应商的私有财产。
+# 此处包含的所有知识、专利均属于Secken, Inc.及其供应商，属于商业秘密，
+# 并受到中国和其他国家的法律保护。这些信息及本声明，除非事先得到
+# Secken, Inc.的书面授权，否则严禁复制或传播。
+#
+# @author     xupengjie (pengjiexu@secken.com)
+# @version    1.24.1
+#
+
+
 # coding=utf8
 
 import urllib2
@@ -19,10 +43,18 @@ class StringException(Exception):
 
 
 class ParamsException(StringException):
-    pass
+
+    def __init__(self, msg, status=0, status_msg=None):
+        StringException.__init__(self, msg)
+        self.status = status
+        self.description = status_msg
 
 
 class InterfaceTimeoutException(StringException):
+    pass
+
+
+class SignatureException(StringException):
     pass
 
 
@@ -49,6 +81,18 @@ class RequestCallBack(object):
 
         return result
 
+class ActionType:
+    LoginAction = 1
+    PayAction = 2
+    DealAction = 3
+    OtherAction = 4
+
+class AuthType:
+    ClickAuth = 1
+    GestureAuth = 2
+    FaceAuth = 3
+    VoiceAuth = 4
+
 
 def init(appid, appkey, authid):
     return api(appid, appkey, authid)
@@ -61,7 +105,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "2.4"
+    __sdkVersion = "2.9"
 
     def __Get__(self, url, data):
         params = ""
@@ -94,6 +138,14 @@ class api(object):
         url = response.geturl()
         return url
 
+    def __ResponseSignature__(self, json):
+        str = ""
+        for x in sorted(json.keys()):
+            if x != "signature":
+                str += "%s=%s" % (x, json[x])
+        str += self.appkey
+        return md5.new(str).hexdigest()
+
     def __init__(self, appid, appkey, authid):
         if appid:
             self.appid = appid
@@ -113,12 +165,20 @@ class api(object):
             www = self.__www
         return "%s://%s%s/%s/%s" % (self.__protocol, www, self.__domain, self.__version, name)
 
-    def getBinding(self):
+    def getBinding(self, callback=None):
         # 传递参数
-        data = {
-            "app_id": self.appid,
-            "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
-        }
+        if callback is None or callback == "":
+            data = {
+                "app_id": self.appid,
+                "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
+            }
+        else:
+            en_callback = urllib.quote_plus(urllib.quote_plus(callback))
+            data = {
+                "app_id": self.appid,
+                "callback": en_callback,
+                "signature": md5.new("app_id=%scallback=%s%s" % (self.appid, urllib.quote_plus(callback), self.appkey)).hexdigest()
+            }
 
         # 网络请求
         json_dict = None
@@ -141,28 +201,38 @@ class api(object):
                 raise ParamsException(
                     "server has fail can't not get event_id param")
             else:
-                raise ParamsException("api system fail!")
+                raise ParamsException("api system fail!", json_dict["status"], json_dict["description"])
+
+        en_signature = self.__ResponseSignature__(json_dict)
+        is_success = json_dict["status"] == 200 and True or False
+        json_dict["success"] = is_success
+        if is_success:
+            if en_signature != json_dict["signature"]:
+                raise SignatureException("signature fail!")
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
 
-        json_dict["success"] = (json_dict["status"] == 200 and True or False)
-
         # 返回dict结构
         result = RequestCallBack(json_dict)
-
         self.__timeout = False
-
         return result
 
-    def getAuth(self):
+    def getAuth(self, callback=None):
         # 传递参数
-        data = {
-            "app_id": self.appid,
-            "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
-        }
+        if callback is None or callback == "":
+            data = {
+                "app_id": self.appid,
+                "signature": md5.new("app_id=%s" % (self.appid + self.appkey)).hexdigest()
+            }
+        else:
+            en_callback = urllib.quote_plus(urllib.quote_plus(callback))
+            data = {
+                "app_id": self.appid,
+                "callback": en_callback,
+                "signature": md5.new("app_id=%scallback=%s%s" % (self.appid, urllib.quote_plus(callback), self.appkey)).hexdigest()
+            }
 
         # 网络请求
-
         json_dict = None
 
         try:
@@ -183,17 +253,19 @@ class api(object):
                 raise ParamsException(
                     "server has fail can't not get event_id param")
             else:
-                raise ParamsException("api system fail!")
+                raise ParamsException("api system fail!", json_dict["status"], json_dict["description"])
+
+        en_signature = self.__ResponseSignature__(json_dict)
+        is_success = json_dict["status"] == 200 and True or False
+        json_dict["success"] = is_success
+        if is_success:
+            if en_signature != json_dict["signature"]:
+                raise SignatureException("signature fail!")
 
         json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
-
-        json_dict["success"] = (json_dict["status"] == 200 and True or False)
-
         # 返回dict结构
         result = RequestCallBack(json_dict)
-
         self.__timeout = False
-
         return result
 
     def getResult(self, uuid):
@@ -225,36 +297,47 @@ class api(object):
                     "description": "network has exception"
                 }
 
-            json_dict["success"] = (
-                json_dict["status"] == 200 and True or False)
+            en_signature = self.__ResponseSignature__(json_dict)
+            is_success = json_dict["status"] == 200 and True or False
+            json_dict["success"] = is_success
+            if is_success:
+                if en_signature != json_dict["signature"]:
+                    raise SignatureException("signature fail!")
 
             # 返回dict结构
             result = RequestCallBack(json_dict)
-
             code = json_dict["status"]
-
             if code == 603:
                 self.__timeout = True
-
             return result
         else:
             raise ParamsException(
                 "before getResult please call getLoginCode or getBindingCode or verifyOneClick")
 
-    def realtimeAuth(self, userid, action="", ip=None, username=None):
+    def realtimeAuth(self, action, auth, userid, callback=None, ip=None, username=None):
 
         if userid == None:
             raise ParamsException("userid can't be 'None'")
         if action == None:
             raise ParamsException("action can't be 'None'")
+        if auth == None:
+            raise ParamsException("action can't be 'None'")
 
-        signature = "action_type=%sapp_id=%suid=%s%s" % (
-            action, self.appid, userid, self.appkey)
+        if callback == None or callback == "":
+            signature = "action_type=%sapp_id=%sauth_type=%suid=%s%s" % (
+                action, self.appid, auth, userid, self.appkey)
+        elif ip == None or ip == "":
+            signature = "action_type=%sapp_id=%sauth_type=%scallback=%suid=%s%s" % (
+                action, self.appid, auth, callback,userid, self.appkey)
+        else:
+            signature = "action_type=%sapp_id=%sauth_type=%scallback=%suser_ip=%suid=%s%s" % (
+                action, self.appid, auth, callback, ip, userid, self.appkey)
 
         data = {
+            "action_type" : action,
             "app_id": self.appid,
+            "auth_type": auth,
             "uid": userid,
-            "action_type": action,
             "signature": md5.new(signature).hexdigest()
         }
 
@@ -262,7 +345,10 @@ class api(object):
             data["user_ip"] = ip
 
         if username:
-            data["Username"] = username
+            data["username"] = username
+
+        if callback:
+            data["callback"] = callback
 
         # 网络请求
 
@@ -277,19 +363,27 @@ class api(object):
                 "status": -1,
                 "description": "network has exception"
             }
+
         event_id = json_dict.get("event_id", None)
         if event_id is None:
             if json_dict["status"] == 200:
                 raise ParamsException(
                     "server has fail can't not get event_id param")
             else:
-                raise ParamsException("api system fail!")
+                raise ParamsException("api system fail!", json_dict["status"], json_dict["description"])
+
+        en_signature = self.__ResponseSignature__(json_dict)
+        is_success = json_dict["status"] == 200 and True or False
+        json_dict["success"] = is_success
+        if is_success:
+            if en_signature != json_dict["signature"]:
+                raise SignatureException("signature fail!")
+
 
         json_dict["event_id"] = base64.b64encode(
             json_dict["event_id"].decode("utf-8"))
 
-        json_dict["success"] = (
-            json_dict["status"] == 200 and True or False)
+        json_dict["success"] = is_success
 
         # 返回dict结构
         result = RequestCallBack(json_dict)
@@ -322,8 +416,14 @@ class api(object):
                 "description": "network has exception"
             }
 
-        json_dict["success"] = (
-            json_dict["status"] == 200 and True or False)
+        en_signature = self.__ResponseSignature__(json_dict)
+        is_success = json_dict["status"] == 200 and True or False
+        json_dict["success"] = is_success
+        if is_success:
+            if en_signature != json_dict["signature"]:
+                raise SignatureException("signature fail!")
+
+        json_dict["success"] = is_success
 
         # 返回dict结构
         result = RequestCallBack(json_dict)
