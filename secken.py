@@ -18,7 +18,7 @@
 # Secken, Inc.的书面授权，否则严禁复制或传播。
 #
 # @author     xupengjie (pengjiexu@secken.com)
-# @version    1.24.9
+# @version    1.25.0
 #
 
 
@@ -104,7 +104,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "2.9"
+    __sdkVersion = "3.0"
 
     def __Get__(self, url, data):
         params = ""
