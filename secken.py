@@ -18,7 +18,7 @@
 # Secken, Inc.的书面授权，否则严禁复制或传播。
 #
 # @author     xupengjie (pengjiexu@secken.com)
-# @version    1.24.1
+# @version    1.24.9
 #
 
 
@@ -29,7 +29,6 @@ import urllib
 import md5
 import json
 import time
-import base64
 
 
 class StringException(Exception):
@@ -210,7 +209,7 @@ class api(object):
             if en_signature != json_dict["signature"]:
                 raise SignatureException("signature fail!")
 
-        json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
+        json_dict["event_id"] = event_id.decode("utf-8")
 
         # 返回dict结构
         result = RequestCallBack(json_dict)
@@ -262,7 +261,7 @@ class api(object):
             if en_signature != json_dict["signature"]:
                 raise SignatureException("signature fail!")
 
-        json_dict["event_id"] = base64.b64encode(event_id.decode("utf-8"))
+        json_dict["event_id"] = event_id.decode("utf-8")
         # 返回dict结构
         result = RequestCallBack(json_dict)
         self.__timeout = False
@@ -274,7 +273,7 @@ class api(object):
             raise InterfaceTimeoutException(
                 "interface timeout. plesae recheck")
         if uuid:
-            uuid = base64.b64decode(uuid.decode("utf-8"))
+            uuid = uuid.decode("utf-8")
             signature = "app_id=%sevent_id=%s%s" % (
                 self.appid, uuid, self.appkey)
 
@@ -380,8 +379,7 @@ class api(object):
                 raise SignatureException("signature fail!")
 
 
-        json_dict["event_id"] = base64.b64encode(
-            json_dict["event_id"].decode("utf-8"))
+        json_dict["event_id"] = json_dict["event_id"].decode("utf-8")
 
         json_dict["success"] = is_success
 
