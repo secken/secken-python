@@ -1,6 +1,6 @@
 ####Attention
 
-Python Version : 2.7
+Python Version : 3.0
 
 #### Examples
 
@@ -30,29 +30,75 @@ Python Version : 2.7
 >
 >```
 
+###### realtimeAuth
+>```python
+>import secken
+>
+>seckenApi = secken.init(appkey,appid,authid)
+>
+>result = seckenApi.realtimeAuth(
+>         ActionType.LoginAction, AuthType.GestureAuth, userid)
+>if result.success:
+>    # 返回事件ID
+>    return result.event_id
+>
+>```
+
 #### Api Document
+
+
+#### Exception:
+
+> - ParamsException 参数错误
+> - InterfaceTimeoutException 接口超时
+> - SignatureException 签名异常
+
+#### Class:
 
 ##### RequestCallBack
 
-&emsp;&emsp;&emsp;根据接口返回数据
+> - 根据接口返回数据
+
+##### ActionType
+
+> - 在线验证动作
+> - LoginAction 登陆动作
+> - PayAction 支付动作
+> - DealAction 交易动作
+> - OtherAction 其他动作
+
+##### AuthType
+
+> - 验证类型
+> - ClickAuth 单击验证
+> - GestureAuth 手势验证
+> - FaceAuth 人脸验证
+> - VoiceAuth 声音验证
 
 ##### api
 
-&emsp;&emsp;&emsp;洋葱sdk
+&emsp;&emsp;&emsp;洋葱sdk secken.init(appkey,appid,authid) 初始化验证并返回api类
 
 | Name        | Struct                | Description                     |
 | :--------    | :----------------      | :-------------                   |
 | [\_\_init\_\_](#__init__) | (appid,appkey,authid) | 传入洋葱提供的appid appkey authid |
-| [getBinding](#user-content-getBindingCode) | () | 获取绑定的二维码地址 |
-| [getAuth](#user-content-getLoginCode) | () | 获取登陆二维码 |
+| [getBinding](#user-content-getBindingCode) | (\*callback) | 获取绑定的二维码地址 |
+| [getAuth](#user-content-getLoginCode) | (\*callback) | 获取登陆二维码 |
 | [getResult](#user-content-getResult) | (event_id) | 获取结果 |
-| [realtimeAuth](#user-content-verifyOneClick) | (uid,\*action,\*ip,\*username) | 验证一键认证 |
+| [realtimeAuth](#user-content-verifyOneClick) | (action,auth,userid,\*callback,\*ip,\*username) | 验证一键认证 |
 | [offlineAuth](#user-content-verifyOTP) | (uid,dynamic_code) | 验证动态码 |
 | [authPage](#user-content-authPage) | (callback) | 洋葱授权页 |
 <h6 id="getBindingCode">getBindingCode</h6>
 &emsp;&emsp;&emsp;获得绑定二维码地址 需要与getResult配合调用
 <table>
     <thead>
+        <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">*callback</th>
+            <td>回调地址，调用成功后洋葱服务器会请求该地址，具体请查看<a href="http://www.yangcong.com/api">官方文档</a></td>
+        </tr>
         <tr>
             <th colspan="2" align="left">Return</th>
         </tr>
@@ -82,32 +128,11 @@ Python Version : 2.7
                                             <td>网络异常</td>
                                         </tr>
                                         <tr>
-                                            <td>200</td>
-                                            <td>请求成功</td>
-                                        </tr>
-                                        <tr>
-                                            <td>404</td>
-                                            <td>app不存在</td>
-                                        </tr>
-                                        <tr>
-                                            <td>403</td>
-                                            <td>签名错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>402</td>
-                                            <td>appid错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>400</td>
-                                            <td>参数格式错误</td>
-                                        </tr>
-                                        <tr>
                                             <td>501</td>
-                                            <td>获取二维码失败</td>
+                                            <td>生成二维码图像失败</td>
                                         </tr>
                                         <tr>
-                                            <td>407</td>
-                                            <td>请求接口过于频繁</td>
+                                        <td colspan="2"><a href="https://www.yangcong.com/api">查看公共错误码</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -120,6 +145,10 @@ Python Version : 2.7
                         <tr>
                             <td>*qrcode_url</td>
                             <td>请求成功时返回二维码地址</td>
+                        </tr>
+                        <tr>
+                            <td>*qrcode_data</td>
+                            <td>请求成功时返回二维码内容，可自己生成</td>
                         </tr>
                         <tr>
                             <td>*event_id</td>
@@ -131,10 +160,17 @@ Python Version : 2.7
         </tr>
     </tbody>
 </table>
-<h6 id="getLoginCode">getLoginCode</h6>
+<h6 id="getLoginCode">getAuth</h6>
 &emsp;&emsp;&emsp;获得登陆二维码地址 需要与getResult配合调用
 <table>
     <thead>
+        <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">*callback</th>
+            <td>回调地址，调用成功后洋葱服务器会请求该地址，具体请查看<a href="http://www.yangcong.com/api">官方文档</a></td>
+        </tr>
         <tr>
             <th colspan="2" align="left">Return</th>
         </tr>
@@ -164,32 +200,11 @@ Python Version : 2.7
                                             <td>网络异常</td>
                                         </tr>
                                         <tr>
-                                            <td>200</td>
-                                            <td>请求成功</td>
-                                        </tr>
-                                        <tr>
-                                            <td>404</td>
-                                            <td>app不存在</td>
-                                        </tr>
-                                        <tr>
-                                            <td>403</td>
-                                            <td>签名错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>402</td>
-                                            <td>appid错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>400</td>
-                                            <td>参数格式错误</td>
-                                        </tr>
-                                        <tr>
                                             <td>501</td>
-                                            <td>获取二维码图片失败</td>
+                                            <td>生成二维码图像失败</td>
                                         </tr>
                                         <tr>
-                                            <td>407</td>
-                                            <td>请求接口过于频繁</td>
+                                        <td colspan="2"><a href="https://www.yangcong.com/api">查看公共错误码</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -202,6 +217,10 @@ Python Version : 2.7
                         <tr>
                             <td>*qrcode_url</td>
                             <td>请求成功时返回二维码地址</td>
+                        </tr>
+                        <tr>
+                            <td>*qrcode_data</td>
+                            <td>请求成功时返回二维码内容，可自己生成</td>
                         </tr>
                         <tr>
                             <td>*event_id</td>
@@ -219,6 +238,13 @@ Python Version : 2.7
 <table>
     <thead>
         <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">event_id</th>
+            <td>事件ID，具体请查看<a href="http://www.yangcong.com/api">官方文档</a></td>
+        </tr>
+        <tr>
             <th colspan="2" align="left">Return</th>
         </tr>
     </thead>
@@ -247,40 +273,23 @@ Python Version : 2.7
                                             <td>网络异常</td>
                                         </tr>
                                         <tr>
-                                            <td>200</td>
-                                            <td>请求成功</td>
-                                        </tr>
-                                        <tr>
-                                            <td>404</td>
-                                            <td>app不存在</td>
-                                        </tr>
-                                        <tr>
-                                            <td>403</td>
-                                            <td>签名错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>402</td>
-                                            <td>appid错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>400</td>
-                                            <td>参数格式错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>407</td>
-                                            <td>请求接口过于频繁</td>
-                                        </tr>
-                                        <tr>
                                             <td>601</td>
-                                            <td>用户拒绝授权验证</td>
+                                            <td>用户拒绝授权</td>
                                         </tr>
                                         <tr>
                                             <td>602</td>
-                                            <td>等待用户响应超时，可重试</td>
+                                            <td>等待用户响应，可重试</td>
                                         </tr>
                                         <tr>
                                             <td>603</td>
-                                            <td>用户响应超时，不可重试</td>
+                                            <td>用户响应超时，不可重试，事件超时</td>
+                                        </tr>
+                                        <tr>
+                                            <td>604</td>
+                                            <td>event_id 不存在</td>
+                                        </tr>
+                                        <tr>
+                                        <td colspan="2"><a href="https://www.yangcong.com/api">查看公共错误码</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -301,10 +310,37 @@ Python Version : 2.7
     </tbody>
 </table>
 
-<h6 id="verifyOneClick">verifyOneClick</h6>
+<h6 id="verifyOneClick">realtimeAuth</h6>
 &emsp;&emsp;&emsp;一键认证需要与getResult配合调用
 <table>
     <thead>
+        <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">action</th>
+            <td>动作，详见ActionType类</td>
+        </tr>
+        <tr>
+            <th align="left">auth</th>
+            <td>验证方法，详见AuthType类</td>
+        </tr>
+        <tr>
+            <th align="left">userid</th>
+            <td>洋葱返回的userid</td>
+        </tr>
+        <tr>
+            <th align="left">*callback</th>
+            <td>回调地址，调用成功后洋葱服务器会请求该地址，具体请查看<a href="http://www.yangcong.com/api">官方文档</a></td>
+        </tr>
+        <tr>
+            <th align="left">*ip</th>
+            <td>客户ip</td>
+        </tr>
+        <tr>
+            <th align="left">*username</th>
+            <td>用户名称</td>
+        </tr>
         <tr>
             <th colspan="2" align="left">Return</th>
         </tr>
@@ -334,32 +370,23 @@ Python Version : 2.7
                                             <td>网络异常</td>
                                         </tr>
                                         <tr>
-                                            <td>200</td>
-                                            <td>请求成功</td>
-                                        </tr>
-                                        <tr>
                                             <td>604</td>
                                             <td>用户不存在</td>
                                         </tr>
                                         <tr>
-                                            <td>404</td>
-                                            <td>app不存在</td>
+                                            <td>605</td>
+                                            <td>用户未开启该类型验证</td>
                                         </tr>
                                         <tr>
-                                            <td>403</td>
-                                            <td>签名错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>400</td>
-                                            <td>参数格式错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>407</td>
-                                            <td>请求接口过于频繁</td>
+                                        <td colspan="2"><a href="https://www.yangcong.com/api">查看公共错误码</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td>状态信息</td>
                         </tr>
                         <tr>
                             <td>*event_id</td>
@@ -372,10 +399,21 @@ Python Version : 2.7
     </tbody>
 </table>
 
-<h6 id="verifyOTP">verifyOTP</h6>
+<h6 id="verifyOTP">offlineAuth</h6>
 &emsp;&emsp;&emsp;动态码认证
 <table>
     <thead>
+        <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">uid</th>
+            <td>uid洋葱返回的uid</td>
+        </tr>
+        <tr>
+            <th align="left">dynamic_code</th>
+            <td>洋葱的6位动态验证码</td>
+        </tr>
         <tr>
             <th colspan="2" align="left">Return</th>
         </tr>
@@ -405,36 +443,15 @@ Python Version : 2.7
                                             <td>网络异常</td>
                                         </tr>
                                         <tr>
-                                            <td>200</td>
-                                            <td>请求成功</td>
-                                        </tr>
-                                        <tr>
-                                            <td>500</td>
-                                            <td>洋葱系统服务错误</td>
+                                            <td>600</td>
+                                            <td>动态吗验证失败</td>
                                         </tr>
                                         <tr>
                                             <td>604</td>
                                             <td>用户不存在</td>
                                         </tr>
                                         <tr>
-                                            <td>404</td>
-                                            <td>app不存在</td>
-                                        </tr>
-                                        <tr>
-                                            <td>403</td>
-                                            <td>签名错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>402</td>
-                                            <td>appkey匹配失败appid匹配失败</td>
-                                        </tr>
-                                        <tr>
-                                            <td>400</td>
-                                            <td>参数格式错误</td>
-                                        </tr>
-                                        <tr>
-                                            <td>407</td>
-                                            <td>请求接口过于频繁</td>
+                                        <td colspan="2"><a href="https://www.yangcong.com/api">查看公共错误码</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -451,6 +468,13 @@ Python Version : 2.7
 &emsp;&emsp;&emsp;洋葱授权页
 <table>
     <thead>
+        <tr>
+            <th colspan="2" align="left">Request</th>
+        </tr>
+        <tr>
+            <th align="left">callback</th>
+            <td>授权的回调地址</td>
+        </tr>
         <tr>
             <th colspan="2" align="left">Return</th>
         </tr>

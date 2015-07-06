@@ -18,7 +18,7 @@
 # Secken, Inc.的书面授权，否则严禁复制或传播。
 #
 # @author     xupengjie (pengjiexu@secken.com)
-# @version    1.25.0
+# @version    1.25.5
 #
 
 
@@ -311,7 +311,7 @@ class api(object):
             return result
         else:
             raise ParamsException(
-                "before getResult please call getLoginCode or getBindingCode or verifyOneClick")
+                "before getResult please call getAuth or getBinding or realtimeAuth")
 
     def realtimeAuth(self, action, auth, userid, callback=None, ip=None, username=None):
 
