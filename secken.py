@@ -18,7 +18,7 @@
 # Secken, Inc.的书面授权，否则严禁复制或传播。
 #
 # @author     xupengjie (pengjiexu@secken.com)
-# @version    1.25.5
+# @version    1.26.2
 #
 
 
@@ -104,7 +104,7 @@ class api(object):
     __protocol = "https"
     __version = "v2"
     __timeout = False
-    __sdkVersion = "3.0"
+    __sdkVersion = "3.1"
 
     def __Get__(self, url, data):
         params = ""
@@ -336,8 +336,7 @@ class api(object):
             "action_type" : action,
             "app_id": self.appid,
             "auth_type": auth,
-            "uid": userid,
-            "signature": md5.new(signature).hexdigest()
+            "uid": userid
         }
 
         if ip:
@@ -349,8 +348,8 @@ class api(object):
         if callback:
             data["callback"] = callback
 
+        data["signature"] = md5.new(signature).hexdigest()
         # 网络请求
-
         json_dict = None
         try:
             json_dict = \
