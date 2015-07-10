@@ -18,7 +18,7 @@
 # Secken, Inc.的书面授权，否则严禁复制或传播。
 #
 # @author     xupengjie (pengjiexu@secken.com)
-# @version    1.26.2
+# @version    1.26.9
 #
 
 
@@ -322,16 +322,6 @@ class api(object):
         if auth == None:
             raise ParamsException("action can't be 'None'")
 
-        if callback == None or callback == "":
-            signature = "action_type=%sapp_id=%sauth_type=%suid=%s%s" % (
-                action, self.appid, auth, userid, self.appkey)
-        elif ip == None or ip == "":
-            signature = "action_type=%sapp_id=%sauth_type=%scallback=%suid=%s%s" % (
-                action, self.appid, auth, callback,userid, self.appkey)
-        else:
-            signature = "action_type=%sapp_id=%sauth_type=%scallback=%suser_ip=%suid=%s%s" % (
-                action, self.appid, auth, callback, ip, userid, self.appkey)
-
         data = {
             "action_type" : action,
             "app_id": self.appid,
@@ -348,7 +338,8 @@ class api(object):
         if callback:
             data["callback"] = callback
 
-        data["signature"] = md5.new(signature).hexdigest()
+        signature = self.__ResponseSignature__(data)
+        data["signature"] = signature
         # 网络请求
         json_dict = None
         try:
